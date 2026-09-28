@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eegop"
+version = "1.0.0"
+description = "Training-derived channel and sampling-rate operating points for motor EEG decoding"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Jasmeet Singh Bindra" },
+    { name = "Siddharth Panwar" },
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "torch",
+]
+
+[project.optional-dependencies]
+data = ["moabb", "mne", "pyriemann", "pandas"]
+dev = ["pytest", "matplotlib"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

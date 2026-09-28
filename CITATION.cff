@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Training-derived channel and sampling-rate operating points for motor EEG decoding: a subject-level non-inferiority evaluation"
+authors:
+  - family-names: Bindra
+    given-names: Jasmeet Singh
+    orcid: "https://orcid.org/0009-0006-3105-0758"
+    affiliation: "Indian Institute of Technology Mandi"
+  - family-names: Panwar
+    given-names: Siddharth
+    orcid: "https://orcid.org/0000-0002-9432-350X"
+    affiliation: "Indian Institute of Technology Mandi"
+repository-code: "https://github.com/hellogalaxyitsme/Training-derived-channel-sampling-rate-operating-points-motor-EEG-decoding"
+version: 1.0.0
+license: MIT

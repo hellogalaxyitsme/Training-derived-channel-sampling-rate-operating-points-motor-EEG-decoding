@@ -1,0 +1,20 @@
+# Data caches and experiment outputs
+eegop_cache/
+data_cache/
+*.pkl
+*.tmp
+runs/
+logs/
+tables/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# OS
+.DS_Store
+paper_outputs/

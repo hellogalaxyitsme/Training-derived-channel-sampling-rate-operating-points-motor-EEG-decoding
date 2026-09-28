@@ -1,0 +1,12 @@
+global_scale_same,jensen_max,kl_nats,r_PR,r_PR_mean,r_rel_mean,standard_PR,standard_sum,test,top4,top_mass
+,0.0,,,,,4.739534555056074,0.25057891926573267,equal_cov_population,,
+,0.0,0.2857142857142856,,,,,,offdiag_contrast,,
+,,,,6.1,10.35,,,null_C22_standard,,
+,,,,8.55,12.8,,,null_C22_jensen,,
+,,,,19.0,30.55,,,null_C64_standard,,
+,,,,23.1,35.75,,,null_C64_jensen,,
+,,,9,,,,,rank_original_standard,"[1, 4, 13, 21]",0.02528789480398498
+,,,9,,,,,rank_original_jensen,"[1, 4, 13, 21]",0.02507527580593182
+,,,1,,,,,rank_CAR (rank C-1)_standard,"[9, 10, 11, 17]",19.931568569324174
+,,,6,,,,,rank_CAR (rank C-1)_jensen,"[1, 4, 12, 19]",0.03297995450481829
+True,,,,,,,,invariance,,
