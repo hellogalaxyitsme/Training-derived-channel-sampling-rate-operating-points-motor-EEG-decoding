@@ -130,20 +130,12 @@ for ds, mode in groups:
                      + " & ".join(cell(row(ds, mode, dec, c)) for c in ("T1", "T2", "T3")) + " \\\\")
     lines.append("\\midrule")
 lines = lines[:-1]
-_trp = os.path.join(TAB, "eval_training.csv")
-_hgd_atc_folds = 5
-if os.path.exists(_trp):
-    _tr = pd.read_csv(_trp)
-    _h = _tr[(_tr.dataset == "schirrmeister2017") & (_tr.decoder == "atcnet")]
-    if len(_h):
-        _hgd_atc_folds = int(_h.groupby("subject").split.nunique().min())
-HGD_ATC_NOTE = "HGD ATCNet-S: first outer fold only. " if _hgd_atc_folds < 5 else ""
 with open(os.path.join(MAN, "tab_primary.tex"), "w") as f:
     f.write("\\begin{table*}[t]\n\\caption{Accuracy differences, full minus reduced input (pp; positive = "
             "loss), with unadjusted 90\\% $t$ intervals and the Holm-adjusted category at the 3-pp margin: "
             "E, equivalent; NI, non-inferior but not equivalent; B, reduced better by more than the margin; "
             "I, inconclusive; L, loss larger than the margin. $n$: subjects. Full: mean full-input accuracy (\\%). "
-            + HGD_ATC_NOTE + "S1$\\rightarrow$S2: trained on session 1, tested on session 2.}\n"
+            "S1$\\rightarrow$S2: trained on session 1, tested on session 2.}\n"
             "\\label{tab:primary}\n\\centering\n\\small\n\\setlength{\\tabcolsep}{3pt}\n"
             "\\begin{tabular}{@{}llcclll@{}}\n\\toprule\nData & Decoder & $n$ & Full & T1 (channels) & "
             "T2 (rate) & T3 (joint) \\\\\n\\midrule\n" + "\n".join(lines) +
