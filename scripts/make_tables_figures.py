@@ -46,8 +46,9 @@ CAT_SHORT = {"Equivalent": "E", "Non-inferior": "NI", "Reduced better by > margi
 C_FULL = {"cho2017": 64, "lee2019_mi": 62, "schirrmeister2017": 128, "bnci2014_001": 22}
 FS_FULL = {"cho2017": 250., "lee2019_mi": 1000., "schirrmeister2017": 500., "bnci2014_001": 250.}
 
-plt.rcParams.update({"font.family": "serif", "font.size": 8, "axes.labelsize": 8,
-                     "xtick.labelsize": 7, "ytick.labelsize": 7, "legend.fontsize": 7,
+# Figures are drawn at their final printed width (153-mm text block), so these are the printed sizes.
+plt.rcParams.update({"font.family": "serif", "font.size": 9, "axes.labelsize": 9,
+                     "xtick.labelsize": 8.5, "ytick.labelsize": 8.5, "legend.fontsize": 8.5,
                      "axes.spines.top": False, "axes.spines.right": False,
                      "axes.edgecolor": "#52514e", "axes.linewidth": 0.6,
                      "pdf.fonttype": 42})
@@ -169,7 +170,7 @@ def forest(ax, sub, title, show_labels):
             ni = str(r["dec_holm_noninferior"]) == "True"
             ax.plot([100 * r.ci90_lo, 100 * r.ci90_hi], [y, y], color=DEC_COLOR[dec], lw=1.2,
                     solid_capstyle="round")
-            ax.plot(100 * r["mean"], y, DEC_MARK[dec], ms=4.5, mfc=DEC_COLOR[dec] if ni else "white",
+            ax.plot(100 * r["mean"], y, DEC_MARK[dec], ms=5, mfc=DEC_COLOR[dec] if ni else "white",
                     mec=DEC_COLOR[dec], mew=1.0)
             ticks.append(y); labels.append(f"{GLAB[(ds, mode)].replace(chr(92), '').replace('$rightarrow$', '→')} · {DEC_LABEL[dec].replace('--', '–')}")
             y -= 1
@@ -181,13 +182,13 @@ def forest(ax, sub, title, show_labels):
         ax.set_yticks(ticks)
         ax.set_yticklabels(labels)
     ax.tick_params(axis="y", length=0)
-    ax.set_title(title, fontsize=8)
-    ax.set_xlabel("Full − reduced accuracy (pp)")
+    ax.set_title(title, fontsize=9)
+    ax.set_xlabel("Full − reduced (pp)")
     ax.grid(axis="x", color="#e6e5e1", lw=0.5)
 
 
 sel = acc[acc.config.isin(["T1", "T2", "T3"])]
-fig, axes = plt.subplots(1, 3, figsize=(7.16, 6.2), sharey=True)
+fig, axes = plt.subplots(1, 3, figsize=(6.0, 7.8), sharey=True)
 for ax, rule, title in zip(axes, ("T1", "T2", "T3"),
                            ("T1: reduced channels", "T2: reduced rate", "T3: joint")):
     sub = [((ds, mode), sel[(sel.dataset == ds) & (sel["mode"] == mode) & (sel.config == rule)])
@@ -195,12 +196,12 @@ for ax, rule, title in zip(axes, ("T1", "T2", "T3"),
     forest(ax, sub, title, ax is axes[0])
     lim = max(4.0, np.nanmax(np.abs(100 * sel[["ci90_lo", "ci90_hi"]].values)) + 0.5)
     ax.set_xlim(-lim, lim)
-handles = [plt.Line2D([], [], color=DEC_COLOR[d], marker=DEC_MARK[d], lw=1, ms=4.5, label=DEC_LABEL[d])
+handles = [plt.Line2D([], [], color=DEC_COLOR[d], marker=DEC_MARK[d], lw=1, ms=5, label=DEC_LABEL[d])
            for d in ["csp", "riemann", "tslr", "eegnet", "atcnet"]]
-handles.append(plt.Line2D([], [], color="#52514e", marker="o", mfc="white", lw=0, ms=4.5,
+handles.append(plt.Line2D([], [], color="#52514e", marker="o", mfc="white", lw=0, ms=5,
                           label="open: non-inferiority not established"))
-fig.legend(handles=handles, loc="lower center", ncol=6, frameon=False, bbox_to_anchor=(0.55, -0.005))
-fig.tight_layout(rect=(0, 0.04, 1, 1))
+fig.legend(handles=handles, loc="lower center", ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.01))
+fig.tight_layout(rect=(0, 0.07, 1, 1))
 fig.savefig(os.path.join(FIG, "fig_primary_forest.pdf"), bbox_inches="tight")
 fig.savefig(os.path.join(FIG, "fig_primary_forest.png"), dpi=200, bbox_inches="tight")
 plt.close(fig)
@@ -212,8 +213,8 @@ CFG_LABEL = {"T2": "T2 (k=7)", "T2_k5": "Rate k=5", "T2_k10": "Rate k=10", "F128
              "T3_c075": "T3, 0.75 r*", "T3": "T3", "T3_c125": "T3, 1.25 r*"}
 dsets = [d for d in ("cho2017", "lee2019_mi", "bnci2014_001", "schirrmeister2017")
          if not acc[(acc.dataset == d) & (acc["mode"] == "within")].empty]
-fig, axes = plt.subplots(1, len(dsets), figsize=(7.16, 3.6), sharey=True)
-axes = np.atleast_1d(axes)
+fig, axes = plt.subplots(2, 2, figsize=(6.0, 6.4), sharey=True)
+axes = np.atleast_1d(axes).ravel()
 decs_b = ["csp", "riemann", "tslr", "eegnet"]
 for ax, ds in zip(axes, dsets):
     for j, dec in enumerate(decs_b):
@@ -224,7 +225,7 @@ for ax, ds in zip(axes, dsets):
             yy = -i + (j - 1.5) * 0.18
             ni = str(r["dec_holm_noninferior"]) == "True"
             ax.plot([100 * r.ci90_lo, 100 * r.ci90_hi], [yy, yy], color=DEC_COLOR[dec], lw=0.9)
-            ax.plot(100 * r["mean"], yy, DEC_MARK[dec], ms=3.5, mfc=DEC_COLOR[dec] if ni else "white",
+            ax.plot(100 * r["mean"], yy, DEC_MARK[dec], ms=4, mfc=DEC_COLOR[dec] if ni else "white",
                     mec=DEC_COLOR[dec], mew=0.8)
     ax.axvspan(-3, 3, color="#f0efec", zorder=0)
     ax.axvline(0, color="#52514e", lw=0.6)
@@ -234,13 +235,15 @@ for ax, ds in zip(axes, dsets):
     ax.set_yticks([-i for i in range(len(CFG_ORDER))])
     ax.set_yticklabels([CFG_LABEL[c] for c in CFG_ORDER])
     ax.tick_params(axis="y", length=0)
-    ax.set_title(DS_PLAIN[ds].replace("schirrmeister2017", "HGD"), fontsize=8)
+    ax.set_title(DS_PLAIN[ds].replace("schirrmeister2017", "HGD"), fontsize=9)
     ax.set_xlabel("Full − reduced (pp)")
     ax.grid(axis="x", color="#e6e5e1", lw=0.5)
 handles = [plt.Line2D([], [], color=DEC_COLOR[d], marker=DEC_MARK[d], lw=1, ms=4, label=DEC_LABEL[d])
            for d in decs_b]
-fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, bbox_to_anchor=(0.55, -0.01))
-fig.tight_layout(rect=(0, 0.05, 1, 1))
+for ax in axes[len(dsets):]:
+    ax.set_visible(False)
+fig.legend(handles=handles, loc="lower center", ncol=4, frameon=False, bbox_to_anchor=(0.5, -0.01))
+fig.tight_layout(rect=(0, 0.04, 1, 1))
 fig.savefig(os.path.join(FIG, "fig_baselines.pdf"), bbox_inches="tight")
 fig.savefig(os.path.join(FIG, "fig_baselines.png"), dpi=200, bbox_inches="tight")
 plt.close(fig)
@@ -264,7 +267,7 @@ if os.path.exists(cl_path):
         f.write("\\begin{table*}[t]\n\\caption{Deep-network size and CPU inference cost at the median T3 operating "
                 "point (full / T3). MACs: multiply--accumulate operations per trial (millions). Latency: median of "
                 "300 single-trial forward passes, one CPU thread, after warm-up, with the first temporal convolution evaluated by FFT; excludes preprocessing and the "
-                "one-off operating-point estimation.}\n\\label{tab:complexity}\n\\centering\n\\small\n"
+                "one-off operating-point estimation.}\n\\label{tab:complexity}\n\\centering\n\\small\n\\setlength{\\tabcolsep}{4pt}\n"
                 "\\begin{tabular}{@{}llccccc@{}}\n\\toprule\nDataset & Network & Input (ch.$\\times$samples) & "
                 "Input kept & Parameters & MACs (M) & Latency (ms) \\\\\n\\midrule\n" + "\n".join(lines) +
                 "\n\\bottomrule\n\\end{tabular}\n\\end{table*}\n")
@@ -296,6 +299,8 @@ if os.path.exists(cb_path):
         macros["sub" + key] = f"{100 * r.mean_diff:+.1f}".replace("-", "$-$")
         macros["subci" + key] = f"[{100 * r.ci95_lo:+.1f}, {100 * r.ci95_hi:+.1f}]".replace("-", "$-$")
         macros["subp" + key] = f"{r.p_two_sided:.2g}"
+        if "p_holm" in cb.columns:
+            macros["subpholm" + key] = f"{r.p_holm:.2g}"
 
 # one-off estimation time per training partition (includes the 50-permutation
 # parallel-analysis count and the contrast-only variant, which the rule does not need)
@@ -304,7 +309,7 @@ import json as _json  # noqa: E402
 est = {}
 for ds in MDS:
     ts = [_json.load(open(p))["estimate_s"]
-          for p in _glob.glob(os.path.join(_args.runs, ds, "within", "operating_points", "*.json"))]
+          for p in _glob.glob(os.path.join(_args.runs, ds, "within", "bounds", "*.json"))]
     if ts:
         est[ds] = np.median(ts)
 if est:

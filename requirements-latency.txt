@@ -1,0 +1,8 @@
+# CPU-only environment used for results/complexity_latency.csv (Python 3.12.10).
+# Install PyTorch from the CPU wheel index:
+#   pip install torch==2.14.0 --index-url https://download.pytorch.org/whl/cpu
+torch==2.14.0
+numpy==2.5.3
+scipy==1.18.1
+scikit-learn==1.9.1
+pyriemann==0.10

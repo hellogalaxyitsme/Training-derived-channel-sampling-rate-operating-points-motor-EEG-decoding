@@ -7,7 +7,8 @@ skipped. MACs are counted analytically with forward hooks: Conv1d/Conv2d
 (including grouped/depthwise), Linear, multi-head attention (input/output
 projections plus the two attention matrix products), and the FFT temporal
 layer counted as the equivalent direct convolution. Latency: batch 1, single
-process, torch.set_num_threads(N), 50 warm-up and 300 timed passes, with the
+process, torch.set_num_threads(N), 50 warm-up passes (5 for networks with at least
+10^9 MACs) and 300 timed passes, with the
 first temporal convolution evaluated by FFT (numerically equivalent to the
 direct convolution, whose CPU cost is very high for kernels of hundreds of taps).
 

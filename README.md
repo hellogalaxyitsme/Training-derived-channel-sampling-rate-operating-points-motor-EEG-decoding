@@ -55,6 +55,16 @@ and the test-set predictions. Interrupted jobs resume from the last completed su
 The reported runs used one NVIDIA RTX A5000 (24 GB) and a 32-core CPU. The deep-network
 jobs took tens of GPU hours in total; the classical jobs take several CPU hours per dataset.
 
+### Latency measurements
+
+`results/complexity_latency.csv` was produced by `scripts/complexity_latency.py` in a separate
+CPU-only environment (Python 3.12.10, PyTorch 2.14.0 CPU build, NumPy 2.5.3; one thread on an
+Intel Core i7-14700K), listed in `requirements-latency.txt`. The training and evaluation
+environment is the one in `requirements.txt`. Each network is timed with batch size 1 over
+300 forward passes after 50 warm-up passes (5 warm-up passes for networks with at least
+10^9 MACs); the first temporal convolution is evaluated by FFT. Parameter and MAC counts do
+not depend on the environment; latencies depend on the hardware and library versions.
+
 ## Reported results
 
 The subject-level results reported in the paper are in `results/` (see
